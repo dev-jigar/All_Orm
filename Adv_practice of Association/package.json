@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "express": "^4.18.2",
+    "faker": "^6.6.6",
+    "mysql2": "^3.2.3",
+    "nodemon": "^2.0.22",
+    "sequelize": "^6.31.0"
+  },
+  "name": "adv_orm",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "sequelize-cli": "^6.6.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
