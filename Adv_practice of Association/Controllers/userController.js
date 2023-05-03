@@ -40,6 +40,7 @@ const getScopeValue = async (req, res) => {
 
 const HandleMnyRelationShip = async (req, res) => {
   //add user by relationship
+  
 
   try {
     const { email, firstName, whichCourse } = req.body;
@@ -52,23 +53,20 @@ const HandleMnyRelationShip = async (req, res) => {
 
     if (MainData.length === 0) {
       let data = await user.create({
-        firstName: firstName,
         email: email,
+        firstName: firstName,
       });
 
       if (data) {
         let some = await course.findByPk(whichCourse);
         if (some && some.dataValues.id) {
-          let insJunc = await user_course.create({
-            courseId: some.dataValues.id,
-            userId: data.dataValues.id,
-          });
           let response;
           response = {
-            data: insJunc,
+            // data: insJunc,
             success: "Done",
           };
           res.status(200).json(response);
+   
         }
       }
     } else {

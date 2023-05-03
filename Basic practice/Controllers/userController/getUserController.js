@@ -47,7 +47,7 @@ const updateAPI = async (req, res) => {
     data: "Updated",
   };
   res.status(200).json(response);
-};  
+};
 //get ALL users Data
 const getAllData = async (req, res) => {
   let data = await Users.findAll({});
@@ -202,7 +202,6 @@ const oneRelationShip = async (req, res) => {
     ],
   });
 
-
   let response = {
     data: data,
     success: "Done",
@@ -210,7 +209,6 @@ const oneRelationShip = async (req, res) => {
   res.status(200).json(response);
 };
 //one to many relationships search results
-
 
 const oneTomanyRelationShip = async (req, res) => {
   const { search } = req.body;
@@ -318,26 +316,22 @@ const HandleMnyRelationShip = async (req, res) => {
     });
     console.log("Data::::::::", MainData);
     if (MainData.length === 0) {
+      let some = await Course.findByPk(whichCourse);
       let data = await Users.create({
         name: name,
         email: email,
+        include: Junc,
       });
 
-      if (data) {
-        let some = await Course.findByPk(whichCourse);
-        if (some && some.dataValues.id) {
-          let insJunc = await Junc.create({
-            CourseId: some.dataValues.id,
-            UserId: data.dataValues.id,
-          });
-          let response;
-          response = {
-            data: insJunc,
-            success: "Done",
-          };
-          res.status(200).json(response);
-        }
+      if(data){
+        let response;
+        response = {
+          // data: insJunc,
+          success: "Done",
+        };
+        res.status(200).json(response);
       }
+    
     } else {
       let sdata = await Users.update(
         { name: name, email: email },
