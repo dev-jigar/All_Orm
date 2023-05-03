@@ -87,7 +87,6 @@ const feedTable = async (req, res) => {
       res.json({ message: "success posted" });
     }
     if (option == "comment") {
-      console.log("sdfsdfjsdfjsdfjk::::::::::::::::::::::::::::::::::::::");
       const validatePostComment = await posts.findAll({
         attributes: { exclude: ["userId"] },
         where: {
