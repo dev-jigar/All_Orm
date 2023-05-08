@@ -1,3 +1,4 @@
+
 const Model = require("../models");
 const select_master = Model.select_master;
 const option_master = Model.option_master;
@@ -34,30 +35,41 @@ const updateCombo = async (req, res) => {
         {
           name: name,
           controller: controller,
-          // option_masters: [...option_masters],
         },
         {
           where: {
             id: updateFind.dataValues.id,
           },
         }
-        // {
-        //   include: [{ model: option_masters }],
-        // }
       );
       res.json({ data: updateData });
     }
+
     const option_masters = req.body.option_master;
-    console.log(...option_masters);
-    console.log("id::::::::::::", updateFind.dataValues.id);
-    const upt = await option_master.update({
-      option_masters: [...option_masters],
+    const upt = await option_master.findAll({
       where: {
         s_id: updateFind.dataValues.id,
       },
     });
 
-    console.log("UPDATED OPTIONS", upt);
+    for (let i = 0; i < upt.length; i++) {
+      const uptOptions = await option_master.update(option_masters[i], {
+        where: {
+          id: upt[i].dataValues.id,
+        },
+      });
+    }
+    if (upt.length != option_masters.length) {
+      let diff = option_masters.length - upt.length;
+      for (let i = 0; i < diff; i++) {
+        const addSome = await option_master.create(
+          option_masters[upt.length + i],
+          {
+            s_id: updateFind.dataValues.id,
+          }
+        );
+      }
+    }
   } catch (error) {
     console.log("Update", error);
   }
@@ -75,12 +87,12 @@ const showData = async (req, res) => {
         },
         include: [{ model: option_master }],
       });
-     
+
       let cp = 0;
       let type = getData.controller;
       let AllOptions = getData.option_masters;
       let content = ``;
-     
+
       res.json({ data: getData });
       if (type == "radio") {
         AllOptions.forEach((element) => {
@@ -105,13 +117,20 @@ const showData = async (req, res) => {
         AllOptions.forEach((element) => {
           content += `<input type='checkbox' name = '${element.s_id}' value='${element.op_name}'/><lable>${element.op_name}</lable>`;
         });
-        console.log(content)
+        console.log(content);
         return content;
       }
       res.json({ data: getData });
     }
   } catch (error) {}
 };
+const deleteData = async(req, res) => {
+  try {
+    
+  } catch (error) {
+    console.log("Delete data",error);
+  }
+}
 module.exports = {
   addCombo,
   updateCombo,
