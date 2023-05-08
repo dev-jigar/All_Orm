@@ -12,6 +12,6 @@ const { authenticateUser } = require("../middlewares/auth");
 router.route("/").get(getUser);
 router.post("/add", validateUser, addUser);
 router.put("/update/:id",authenticateUser,uptUser);
-router.delete("/delete/:id",deleteUser);
+router.delete("/delete/:id",authenticateUser,deleteUser);
 
 module.exports = router;

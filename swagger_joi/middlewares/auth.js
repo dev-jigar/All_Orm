@@ -31,6 +31,7 @@ module.exports = {
         );
       }
 
+
       const user = await Service.getUserById(token.sub);
       if (!user) {
         return send(
@@ -41,6 +42,7 @@ module.exports = {
           null
         );
       }
+
 
       req.authUser = user;
       return next();

@@ -1,4 +1,9 @@
-const { getAllUsers, signUp, updateUser } = require("../repository/UserRepo");
+const {
+  getAllUsers,
+  signUp,
+  updateUser,
+  DeleteUserDetails,
+} = require("../repository/UserRepo");
 const { HTTPStatus, ErrorCode } = require("../helpers/enum");
 const { Message, Action } = require("../helpers/messages");
 const Service = require("../helpers/index");
@@ -27,12 +32,19 @@ const addUser = async (req, res) => {
 const uptUser = async (req, res) => {
   try {
     const updatedUserData = await updateUser(req.body, req, res);
-    res.json({ data: updatedUserData });
+    res.json({ data: updatedUserData?.data });
   } catch (error) {
     console.log("UpdateUser error: " + error);
   }
 };
-const deleteUser = async (req, res) => {};
+const deleteUser = async (req, res) => {
+  try {
+    const deleteUserData = await DeleteUserDetails(req.params.id, req, res);
+    res.json({ data: "successfully delete user",id:deleteUserData?.id});
+  } catch (error) {
+    console.log("Delete error: " + error);
+  }
+};
 
 module.exports = {
   getUser,
