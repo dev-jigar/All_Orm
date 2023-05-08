@@ -46,18 +46,17 @@ const updateCombo = async (req, res) => {
         // }
       );
       res.json({ data: updateData });
-     
     }
     const option_masters = req.body.option_master;
     console.log(...option_masters);
-    console.log("id::::::::::::",updateFind.dataValues.id)
+    console.log("id::::::::::::", updateFind.dataValues.id);
     const upt = await option_master.update({
       option_masters: [...option_masters],
       where: {
         s_id: updateFind.dataValues.id,
       },
     });
-    
+
     console.log("UPDATED OPTIONS", upt);
   } catch (error) {
     console.log("Update", error);
@@ -68,14 +67,48 @@ const showData = async (req, res) => {
   try {
     const { select } = req.body;
     const data = await select_master.findByPk(select);
+
     if (select) {
       const getData = await select_master.findOne({
         where: {
-          id: select.id,
+          id: select,
         },
         include: [{ model: option_master }],
       });
-      console.log("get___data", getData);
+     
+      let cp = 0;
+      let type = getData.controller;
+      let AllOptions = getData.option_masters;
+      let content = ``;
+     
+      res.json({ data: getData });
+      if (type == "radio") {
+        AllOptions.forEach((element) => {
+          content += `<input type='radio' name = 'radio${cp}'/>${element.op_name}`;
+        });
+        cp++;
+        console.log(content);
+        return content;
+      }
+
+      if (type == "dropdown") {
+        content += `<select id=${getData.name}>`;
+        AllOptions.forEach((element) => {
+          content += `
+      <option value='${element.op_name}'>${element.op_name}</option>`;
+        });
+        content += `</select>`;
+        console.log(content);
+        return content;
+      }
+      if (type == "checkbox") {
+        AllOptions.forEach((element) => {
+          content += `<input type='checkbox' name = '${element.s_id}' value='${element.op_name}'/><lable>${element.op_name}</lable>`;
+        });
+        console.log(content)
+        return content;
+      }
+      res.json({ data: getData });
     }
   } catch (error) {}
 };
