@@ -101,16 +101,17 @@ const showData = async (req, res) => {
         console.log(content);
         return content;
       }
-
+      let contentcheck = ``;
       if (type == "dropdown") {
-        content += `<select id=${getData.name}>`;
+        contentcheck += `<select id=${getData.name}>`;
+        contentcheck += `<option selected disabled value='default'>select</option>`;
         AllOptions.forEach((element) => {
-          content += `
+          contentcheck += `
       <option value='${element.op_name}'>${element.op_name}</option>`;
         });
         content += `</select>`;
-        console.log(content);
-        return content;
+        console.log(contentcheck);
+        return contentcheck;
       }
       if (type == "checkbox") {
         AllOptions.forEach((element) => {
