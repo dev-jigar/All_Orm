@@ -51,7 +51,7 @@ const signUp = async (data, req, res) => {
         var token = {
           token: await Service.generateToken(storeUser.dataValues),
         };
-        return { data: storeUser, token };
+        return { data: storeUser, token:token.token };
       }
     }
   } catch (error) {

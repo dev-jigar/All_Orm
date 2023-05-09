@@ -1,4 +1,3 @@
-
 const Model = require("../models");
 const select_master = Model.select_master;
 const option_master = Model.option_master;
@@ -124,13 +123,13 @@ const showData = async (req, res) => {
     }
   } catch (error) {}
 };
-const deleteData = async(req, res) => {
+
+const deleteData = async (req, res) => {
   try {
-    
   } catch (error) {
-    console.log("Delete data",error);
+    console.log("Delete data", error);
   }
-}
+};
 module.exports = {
   addCombo,
   updateCombo,
