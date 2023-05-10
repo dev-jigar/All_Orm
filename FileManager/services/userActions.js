@@ -3,6 +3,8 @@ const send = Service.sendResponse;
 const { HTTPStatus, ErrorCode } = require("../helpers/enum");
 const { Message, Action } = require("../helpers/messages");
 const Model = require("../models");
+const localStorage = require("node-localstorage");
+
 
 const users = Model.users;
 
@@ -22,8 +24,8 @@ const SaveUserRegistration = async (data, req, res) => {
       } else {
         const HashedPassword = await Service.bcryptPassword(data.password);
 
-        const storeUser = await users.create({
-          name: data.FirstName,
+        let storeUser = await users.create({
+          FirstName: data.FirstName,
           LastName: data.LastName,
           email: data.email,
           UserName: data.UserName,
@@ -39,12 +41,10 @@ const SaveUserRegistration = async (data, req, res) => {
             Message.DATA_NOT_SAVE
           );
         }
-        console.log("User Created", storeUser);
 
-        var token = {
-          token: await Service.generateToken(storeUser.dataValues),
-        };
-        return { data: storeUser, token: token.token };
+        const token = await Service.generateToken(storeUser.dataValues);
+        
+        return { data: storeUser, token: token };
       }
     }
   } catch (error) {

@@ -56,6 +56,12 @@ module.exports = {
   },
   getUserById:async function (userId) {
     return await users.findByPk(userId)
+  },
+  routeUserToDashboard:async function (data,token,req,res){
+    if (token && data){
+     
+      return res.redirect('/api/home')
+    }
   }
 };
 

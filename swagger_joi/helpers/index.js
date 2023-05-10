@@ -6,11 +6,6 @@ const moment = require("moment");
 const Model = require("../models");
 const users = Model.users;
 
-
-
-
-
-
 module.exports = {
   sendResponse(res, status, code, message, payload) {
     return res.status(status).send(prepareResponse(code, message, payload));
@@ -59,9 +54,9 @@ module.exports = {
   getCurrentTimeStampUnix: function () {
     return moment().unix();
   },
-  getUserById:async function (userId) {
-    return await users.findByPk(userId)
-  }
+  getUserById: async function (userId) {
+    return await users.findByPk(userId);
+  },
 };
 
 function prepareResponse(status, message, data) {
